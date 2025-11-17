@@ -1,9 +1,11 @@
 name: Deploy to Cloudflare Pages
 
+#on:
+#    branches:
+#  push:
+#      - main  # deploy on push to main branch
 on:
-  push:
-    branches:
-      - main  # deploy on push to main branch
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -16,8 +18,7 @@ jobs:
         run: npm install -g wrangler
 
       - name: Publish to Cloudflare Pages
-        run: wrangler pages deploy ./site \
-          --project-name cv-site \
+        run: wrangler pages deploy ./site --project-name cv-site \
           --branch main \
           --commit-hash ${{ github.sha }}
         env:
