@@ -16,7 +16,10 @@ jobs:
 
       - name: Install Wrangler (Cloudflare CLI)
         run: npm install -g wrangler
-
+        
+      - name: Wrangler version
+        run: wrangler --version
+        
       - name: Publish to Cloudflare Pages
         run: wrangler pages deploy ./site --project-name cv-site \
           --branch main \
