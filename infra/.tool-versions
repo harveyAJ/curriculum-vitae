@@ -1,1 +1,2 @@
 terraform 1.7.3
+sops 3.8.1

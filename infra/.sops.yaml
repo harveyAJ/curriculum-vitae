@@ -1,0 +1,4 @@
+creation_rules:
+    - path: ./secrets.json
+      encrypted_regex: "^(api_token|zone_id|account_id)$"
+      age: 'age1etvgfhhcknm9uxke6sff8xlr7tf7q4ffmfv868u39exzmyhv9c7sg0xrwn'

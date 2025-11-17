@@ -4,6 +4,11 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 5"
     }
+
+    sops = {
+      source  = "carlpett/sops"
+      version = "~> 1.0"
+    }
   }
 }
 
@@ -14,24 +19,12 @@ terraform {
 # 2. Account Permissions (for creating Pages project)
 #   - Pages -> Edit WRITE
 provider "cloudflare" {
-  api_token = "DUTJ7xDMy4s6aZL8_uu9vCrC3S7sYaZyPcSHCoS8"
-}
-
-variable "zone_id" {
-  default = "32c9f795aed95c3cc06f1ef851bc7b15"
-}
-
-variable "account_id" {
-  default = "746ea4a22edc1e6e7d78cfa8b896c09b"
-}
-
-variable "domain" {
-  default = "valentin-roy.dev"
+  api_token = data.sops_file.cf_secrets.data["api_token"]
 }
 
 # https://cv-site-3jd.pages.dev/
 resource "cloudflare_pages_project" "cv" {
-  account_id = var.account_id
+  account_id = data.sops_file.cf_secrets.data["account_id"]
   name       = "cv-valentin"
 
   production_branch = "main"
@@ -42,8 +35,9 @@ resource "cloudflare_pages_project" "cv" {
   }
 }
 
+# TODO add a CNAME for www here too?
 resource "cloudflare_dns_record" "cv_dns" {
-  zone_id = var.zone_id
+  zone_id = data.sops_file.cf_secrets.data["zone_id"]
   name    = "@"
   type    = "A"
   content = "192.0.2.1"
@@ -53,7 +47,7 @@ resource "cloudflare_dns_record" "cv_dns" {
 
 # Bind the domain to the Pages project
 resource "cloudflare_pages_domain" "cv_domain" {
-  account_id      = var.account_id
+  account_id      = data.sops_file.cf_secrets.data["account_id"]
   project_name    = cloudflare_pages_project.cv.name
   name            = var.domain
 }
