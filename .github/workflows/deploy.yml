@@ -16,7 +16,7 @@ jobs:
         run: npm install -g wrangler
 
       - name: Publish to Cloudflare Pages
-        run: wrangler pages publish ./site \
+        run: wrangler pages deploy ./site \
           --project-name cv-site \
           --branch main \
           --commit-sha ${{ github.sha }}
