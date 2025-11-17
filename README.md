@@ -20,7 +20,7 @@ Then deploy the static assets as a Pages deployment
 wrangler pages deploy . --project-name=cv-site
 ```
 
-
+# Terraform
 
 # SOPS
 

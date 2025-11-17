@@ -1,11 +1,11 @@
 name: Deploy to Cloudflare Pages
 
-#on:
-#    branches:
-#  push:
-#      - main  # deploy on push to main branch
 on:
-  workflow_dispatch: #uncomment for manual only 
+  push:
+    branches:
+      - main  # deploy on push to main branch
+#on:
+#  workflow_dispatch: #uncomment for manual only 
 
 jobs:
   deploy:
