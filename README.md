@@ -39,7 +39,7 @@ This is the set of minimal permissions needed to create the infra on Cloudflare 
 Deploy the site to Cloudflare:
 - Creates the Pages project
 - Creates relevant DNS records (A, AAAA, CNAME)
-- Creates redirects (www -> root)
+- ~~Creates redirects (www -> root)~~ Actually, I couldn't do it via tf, kept getting the error `phase \"http_request_redirect\" not allowed at zone level` when applying the ruleset. Instead I'm using the `_redirects` file. Less cool than using tf to do that but at least it works
 
 ## SOPS
 
@@ -88,3 +88,4 @@ Overkill here, it's just an example for me for future reference.
 ## To-do
 
 - Make this an angular app?
+- Allow pipeline to be run manually
