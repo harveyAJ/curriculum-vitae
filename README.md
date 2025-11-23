@@ -41,6 +41,18 @@ Deploy the site to Cloudflare:
 - Creates relevant DNS records (A, AAAA, CNAME)
 - ~~Creates redirects (www -> root)~~ Actually, I couldn't do it via tf, kept getting the error `phase \"http_request_redirect\" not allowed at zone level` when applying the ruleset. Instead I'm using the `_redirects` file. Less cool than using tf to do that but at least it works
 
+I cheated a bit and added the custom domain www.valentin-roy.dev manually using Cloudflare UI.
+
+But in theory Terraform should have taken care of it (only added the relevant block _after_)
+
+```tf
+resource "cloudflare_pages_domain" "cv_domain_www" {
+  account_id   = data.sops_file.cf_secrets.data["account_id"]
+  project_name = cloudflare_pages_project.cv.name
+  name         = "www.${var.domain}"
+}
+```
+
 ## SOPS
 
 I've encrypted Cloudflare's secrets using `sops` and `age`. Refer to this section should any of the CF secrets be rotated (API token, zone ID or account ID)
@@ -89,3 +101,4 @@ Overkill here, it's just an example for me for future reference.
 
 - Make this an angular app?
 - Allow pipeline to be run manually
+- Get terraform to register custom domain www.valentin-roy.dev? Is this possible?

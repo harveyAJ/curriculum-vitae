@@ -35,12 +35,18 @@ resource "cloudflare_pages_project" "cv" {
   }
 }
 
-# Bind the domain to the Pages project
+# Bind the domain to the Pages project (can be viewed in Cloudflare UI in Pages section "Custom domains")
 # This will generate the CNAME target e.g. cv-valentin-abc.pages.dev
 resource "cloudflare_pages_domain" "cv_domain" {
   account_id      = data.sops_file.cf_secrets.data["account_id"]
   project_name    = cloudflare_pages_project.cv.name
   name            = var.domain
+}
+
+resource "cloudflare_pages_domain" "cv_domain_www" {
+  account_id   = data.sops_file.cf_secrets.data["account_id"]
+  project_name = cloudflare_pages_project.cv.name
+  name         = "www.${var.domain}"
 }
 
 locals {
@@ -69,6 +75,7 @@ resource "cloudflare_dns_record" "www" {
 
 # Redirect www.valentin-roy.dev to https://valentin-roy.dev
 # A redirect is recommended so search engine treat these two as one site (SEO best practices)
+# TODO this doesn't seem to work via tf, getting error `phase "http_request_redirect" not allowed at zone level` when applying
 resource "cloudflare_ruleset" "www_to_root_redirect" {
   zone_id = data.sops_file.cf_secrets.data["zone_id"]
   name    = "Redirect www to root"
