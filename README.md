@@ -1,12 +1,14 @@
 # My CV
 
-Meant to host this on an S3 bucket (thought that'd be more fun?) but ended up hosting in Cloudflare, for simplicity (and £££ savings). There is also good support in Terraform for Cloudflare, so all good.
+I'm using this as a playground for trying out a few technologies. Sure, using Terraform to deploy my cv to a Cloudflare Pages site is overkill, but it's also fun :)
 
-Built using the (free) StartBootstrap 'Resume' theme
+I initially meant to host this on an S3 bucket (thought that'd be more fun?) but ended up hosting in Cloudflare, for simplicity (and £££ savings). There is also good support in Terraform for Cloudflare, so all good.
 
-I'm using manual deploy with wrangler CLI as opposed to GitHub integration in Cloudflare
+Built using the (free) StartBootstrap 'Resume' theme.
 
-# Deploy manually to Cloudflare
+I'm using manual deploy with wrangler CLI as opposed to GitHub integration in Cloudflare (again, not exactly for practicality)
+
+## Manual deployment
 
 First, as a prerequisite:
 
@@ -20,9 +22,26 @@ Then deploy the static assets as a Pages deployment
 wrangler pages deploy . --project-name=cv-site
 ```
 
-# Terraform
+(The pipeline `deploy.yml` does that automatically upon pushes to main).
 
-# SOPS
+## Cloudflare
+
+The API token for cloudflare eventually expires so needs to be re-generated (and sops file edited accordingly)
+This is the set of minimal permissions needed to create the infra on Cloudflare using Terraform:
+- Zone Permissions (for DNS and domain lookup)
+  - Zone -> Read READ
+  - DNS -> Edit WRITE
+- Account Permissions (for creating Pages project)
+  - Pages -> Edit WRITE
+
+## Terraform
+
+Deploy the site to Cloudflare:
+- Creates the Pages project
+- Creates relevant DNS records (A, AAAA, CNAME)
+- Creates redirects (www -> root)
+
+## SOPS
 
 I've encrypted Cloudflare's secrets using `sops` and `age`. Refer to this section should any of the CF secrets be rotated (API token, zone ID or account ID)
 
@@ -44,12 +63,14 @@ age-keygen -o keys.txt
 
 **Note**
 
-SOPS will look for a text file name `keys.txt` located in `~/Library/Application Support/sops/age/keys.txt` on MacOS for decryption, so move this file we just created in this folder.
+"Error decrypting sops file"
 
-The other option (that you will need when running Terraform locally) is to set the following environment variable
+SOPS will look for a text file name `keys.txt` located in `~/.config/sops/age/keys.txt` on MacOS for decryption, so move this file we just created in this folder.
+
+It looks like you also need to setup this environment variable:
 
 ```sh
-export SOPS_AGE_KEY_FILE=~/Library/Application Support/sops/age/keys.txt
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 ```
 
 Then encrypt with the public key (in the `.sops.yaml` config file)
@@ -58,8 +79,12 @@ Then encrypt with the public key (in the `.sops.yaml` config file)
 asdf exec  sops -e --verbose --config ./.sops.yaml  secrets.json > cf.secrets.enc.json
 ```
 
-# ASDF
+## ASDF
 
 Version management to enforce specific versions of terraform and sops.
 
 Overkill here, it's just an example for me for future reference.
+
+## To-do
+
+- Make this an angular app?
