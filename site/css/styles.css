@@ -10970,3 +10970,40 @@ section.resume-section .resume-section-content {
     padding-bottom: 5rem;
   }
 }
+
+/* Fade + Slide animations */
+.collapsible summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #0066cc;
+  list-style: none;
+}
+
+.collapsible summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Toggle labels */
+.collapsible .label-less {
+  display: none;
+}
+
+.collapsible[open] .label-more {
+  display: none;
+}
+
+.collapsible[open] .label-less {
+  display: inline;
+}
+
+/* Animation */
+.collapsible-content {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.collapsible[open] .collapsible-content {
+  opacity: 1;
+  transform: translateY(0);
+}
