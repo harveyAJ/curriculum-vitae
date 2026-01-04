@@ -11007,3 +11007,12 @@ section.resume-section .resume-section-content {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Svg icons */
+
+.icon {
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: middle;
+  fill: currentColor;
+}
