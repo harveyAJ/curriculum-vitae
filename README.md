@@ -97,6 +97,10 @@ Version management to enforce specific versions of terraform and sops.
 
 Overkill here, it's just an example for me for future reference.
 
+## Git
+
+I recently switched from https to ssh for pushing changes. Should you push changes from a different machine, new SSH key will have to be generate  and `~/.ssh/config` will have to be updated (and public key added to GitHub). Instructions [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
 ## To-do
 
 - Make this an angular app?
