@@ -71,7 +71,7 @@
 
   <div class="collapsible-content">
     <p class="mb-4">
-      I am part of a small engineering team working on OpsCore, a fast-growing flight
+      I am part of a small engineering team working on OpsCore, a fast-growing "cloud native" flight
       tracking system used by airline dispatchers. My primary focus has been the design
       and implementation of a new alerting engine to notify users of unexpected aircraft
       behavior and weather events.
@@ -88,17 +88,24 @@
 
     <ul>
       <li>
-        Migrated data ingestion from Redis Streams to Kafka, enabling real-time tracking
-        of up to 20,000 aircraft (not yet in production).
-      </li>
+  Led the design and development of a real-time alerting platform, migrating data ingestion from Redis Streams to Kafka to enable scalable processing of up to 20,000 aircraft in near real time.
+</li>
+<li>
+  Re-architected the alerting system for scalability and reliability, introducing support for live operational alerts including weather events, missing position reports, SQUAWK changes, route deviations, and diversions, significantly reducing SRE paging and improving operational signal quality.
+</li>
       <li>
-        Redesigned the alerting system to be scalable; live alerts now include weather,
-        missing position reports, SQUAWK, deviation, and diversion, significantly
-        reducing SRE paging.
-      </li>
+    Took ownership of Site Reliability Engineering and platform engineering responsibilities following the departure of the dedicated SRE function, managing:
+    <ul>
+      <li>Terraform-based infrastructure provisioning and secrets management</li>
+      <li>Kubernetes cluster administration and deployment automation</li>
+      <li>Production release coordination and rollout management</li>
+      <li>CloudWatch log aggregation and operational monitoring</li>
+      <li>Incident investigation and production support</li>
+    </ul>
+  </li>
       <li>
-        Daily work in a fully cloud-native environment, including Terraform, CloudWatch
-        debugging, and Redis maintenance.
+        Enhanced the security posture of cloud-hosted applications by implementing Okta MFA/SSO, 
+        API authentication controls, Cloudflare WAF policies, and rate-limiting mechanisms to protect against unauthorized access, abuse, and common web-based attacks.
       </li>
       <li>
         Active contributor in a remote, US-based team, mentoring junior engineers and
